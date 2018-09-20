@@ -38,7 +38,8 @@
 
 <p id="demo">Current List: </p>
 <p id="demo2">List Length: 0</p>
-<p id="demo3"></p>
+<p id="performance">Performance time:</p>
+<p id="performanceArrays">Performance Results:</p>
 <br>
 <button type="button" onclick="sortList()">Sort List</button><br>
 
@@ -123,21 +124,6 @@ function LinkedList(head, tail) {
 		}
 		return i + 1;
 	}
-
-	// this.length = function () {
-	// 	//iterate through list until head points to tail with a counter
-	// 	//return 0 if head is null, meaning no nodes in list
-	// 	var i = 0;
-	// 	var temp = this.head;
-	// 	if (temp == null) {
-	// 		return i;
-	// 	}
-	// 	while (temp != this.tail && temp != null) {
-	// 		i++;
-	// 		temp = temp.next;
-	// 	}
-	// 	return i + 1;
-	// }
 
 	this.get = function (index) {
 		//ensure index is valid
@@ -229,36 +215,6 @@ function LinkedList(head, tail) {
 		return this.head;
 	}
 
-	// this.sort = function (n1, n2) {
-	// 	//if 0 or 1 elements in list, no need to sort
-	// 	if (n1 == null || n1.next == null) {
-	// 		return n1;
-	// 	}
-	// 	//get pointer to middle node of list
-	// 	var middle = Math.floor(this.length() / 2);
-	// 	var left = n1;
-	// 	var leftPoint = n1;
-	// 	var right = null;
-	// 	var rightPoint = null;
-	// 	var j = 0;
-	// 	while (j < middle - 1) {
-	// 		j++;
-	// 		leftPoint = leftPoint.next;
-	// 	}
-
-	// 	var right = new LinkedList(leftPoint.next, n2);
-	// 	leftPoint.next.prev = null;
-	// 	leftPoint.next = null;
-	// 	//merge-sort on each half of linked list
-	// 	this.head = combineMerge(this.sort(left, leftPoint), this.sort(right.head, n2));
-	// 	var temp = this.head;
-	// 	while (temp.next != null) {
-	// 		temp = temp.next;
-	// 	}
-	// 	this.tail = temp;
-	// 	return this.head;
-	// }
-
 	function combineMerge(n1, n2) {
 		var result = new LinkedList(null, null);
 
@@ -304,18 +260,36 @@ function LinkedList(head, tail) {
 }
 
 var list = new LinkedList(null, null);
+var pushBackPerf = [];
+var pushFrontPerf = [];
+var popBackPerf = [];
+var popFrontPerf = [];
+var lengthPerf = [];
+var getPerf = [];
+var restorePerf = [];
+var sortPerf = [];
 
 function addBack(value) {
 	if (!Number.isInteger(parseInt(value))) {
 		document.getElementById("addBackError").innerHTML = "Input must be a valid integer";
 		return false;
 	}
+
+	var t0 = performance.now();
 	list.pushBack(Math.round(value));
+	var t1 = performance.now();
+
+	pushBackPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
 	document.getElementById("addBackError").innerHTML = "";
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
-	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(),
-		list.getTail());
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
+	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(),list.getTail());
+
+	// for (i = 0; i < pushBackPerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + pushBackPerf[i][0] + ", " + pushBackPerf[i][1] + ")";
+	// }
+
 	clearField("addBack");
 	return;
 }
@@ -325,11 +299,22 @@ function addFront(value) {
 		document.getElementById("addFrontError").innerHTML = "Input must be a valid integer";
 		return false;
 	}
+
+	var t0 = performance.now();
 	list.pushFront(Math.round(value));
+	var t1 = performance.now();
+
+	pushFrontPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
 	document.getElementById("addFrontError").innerHTML = "";
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
 	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(), list.getTail());
+
+	// for (i = 0; i < pushFrontPerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + pushFrontPerf[i][0] + ", " + pushFrontPerf[i][1] + ")";
+	// }
+
 	clearField("addFront");
 	return;
 }
@@ -342,44 +327,94 @@ function retrieveElement(value) {
 		document.getElementById("getElementError").innerHTML = "Input must be a valid index";
 		return false;
 	}
+
+	var t0 = performance.now();
 	var str = "Element at index " + value + ": " + list.get(parseInt(value));
+	var t1 = performance.now();
+
+	getPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";	
 	document.getElementById("getElementError").innerHTML = str.fontcolor("black");
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
 	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(), list.getTail());
+
+	// for (i = 0; i < getPerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + getPerf[i][0] + ", " + getPerf[i][1] + ")";
+	// }
+
 	clearField("getElement");
 }
 
 function removeBack() {
+	var t0 = performance.now();
 	list.popBack();
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
+	var t1 = performance.now();
+
+	popBackPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
 	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(), list.getTail());
+
+	// for (i = 0; i < popBackPerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + popBackPerf[i][0] + ", " + popBackPerf[i][1] + ")";
+	// }
+
 	return;
 }
 
 function removeFront() {
+	var t0 = performance.now();
 	list.popFront();
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
+	var t1 = performance.now();
+
+	popFrontPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
+	list.popFront();
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
 	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(), list.getTail());
+
+	// for (i = 0; i < popFrontPerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + popFrontPerf[i][0] + ", " + popFrontPerf[i][1] + ")";
+	// }
+
 	return;
 }
 
 function restoreList(str) {
+	var t0 = performance.now();
 	list.restoreFromString(str);
-	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead()) +
-	" Current Head: " + list.getHead().val + " Current Tail: " + list.getTail().val;
+	var t1 = performance.now();
+
+	restorePerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.getHead());
 	document.getElementById("demo2").innerHTML = "List Length: " + list.length(list.getHead(), list.getTail());
+	
+	// for (i = 0; i < restorePerf.length; i++) {
+	// 	document.getElementById("performanceArrays").innerHTML += "(" + restorePerf[i][0] + ", " + restorePerf[i][1] + ")";
+	// }
+
 	clearField("restoreList");
 	return;
 }
 
 function sortList() {
-	document.getElementById("demo").innerHTML = "Current List: " + 
-	list.toString(list.sort(list.getHead(), list.getTail())) + " Current Head: " + list.getHead().val + " Current Tail: " +
-	list.getTail().val;
-	// document.getElementById("demo3").innerHTML = "Head val: " + list.getHead().prev.val + " Tail val: " + list.getTail.val;
+	var t0 = performance.now();
+	document.getElementById("demo").innerHTML = "Current List: " + list.toString(list.sort(list.getHead(), list.getTail()));
+	var t1 = performance.now();
+
+	sortPerf.push([list.length(list.getHead(), list.getTail()), t1 - t0]);
+
+	document.getElementById("performance").innerHTML = "Performance time: " + (t1 - t0) + " ms";
+
+	for (i = 0; i < sortPerf.length; i++) {
+		document.getElementById("performanceArrays").innerHTML += "(" + sortPerf[i][0] + ", " + sortPerf[i][1] + ")";
+	}
+
 	return;
 }
 

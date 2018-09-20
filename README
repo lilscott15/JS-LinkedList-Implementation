@@ -1,0 +1,54 @@
+# JS-LinkedList-Implementation
+Implementation and demo of linked list in JavaScript:
+
+-JavaScript is embedded in HTML, so users can interact with functions in web interface
+
+-Implemented a doubly-linked list, with each node created using a function called ListNode,
+which contains an integer value and a pointer to the previous and next null in the list.
+The LinkedList itself was a function that contained head and tail pointers (will always point
+to first and last ListNodes), and several functions that allow for basic linked list functionality.
+Below is a brief description of each function, and time complexity on which it is performed
+
+popFront() -> removes the first value in the list by simply returning whatever this.head is
+pointing to and then moving head to the next node. Runs in O(1) time since regardless of length
+of list, access to head pointer will run in constant time
+
+popBack() -> emoves the last value in the list by simply returning whatever this.tail is
+pointing to and then moving tail to the previous node. Runs in O(1) time since regardless of length
+of list, access to tail pointer will run in constant time
+
+pushFront() -> creates new ListNode with desired integer value and adds it to the front of
+list. Runs in O(1) time since regardless of length of list, access to head pointer will run
+in constant time
+
+pushBack() -> reates new ListNode with desired integer value and adds it to the back of
+list. Runs in O(1) time since regardless of length of list, access to tail pointer will run
+in constant time
+
+length() -> takes input parameters of front and back of list pointers and iterates through 
+until end of list is reached, incrementing a counter along the way.  Runs in O(n) time,
+where n is the number of nodes in the list since iterating through the list will run
+in time proportionally linear to size of n.
+
+get() -> takes an index input and assuming the index is valid, iterates through list
+until the node at that index is reached, and then returns that value.  Runs in O(n) time,
+since the larger n is, the more nodes there are to possibly be iterated through
+
+toString() -> iterates through entire list and adds the values at each ListNode to a string,
+separated by a comma delimiter.  Runs in O(n) time since n total nodes in the list have to be
+traversed
+
+restoreFromString -> taking an input string with integers separated by comments, first we
+split the string into an array by splitting at the commas.  Then each value in the array
+becomes the value of a new ListNode, which is added to the LinkedList. The head of this
+new list becomes this.head, which is returned.  Runs in O(n) time, since a forloop must run
+through the string array of input.
+
+getHead() -> simple getter function to return head of a list
+
+getTail() -> simple getter function to return tail of a list
+
+sort() ->  implemented a merge-sort to sort the element in the array.  After all elements
+have been split into lists of 1, the combine merges two list back together while comparing
+values of the heads of each list.  Runs in O(nlogn), simply based on the standard worst-case
+time complexity of merge-sort
