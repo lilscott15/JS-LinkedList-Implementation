@@ -1,5 +1,7 @@
 # JS-LinkedList-Implementation
-Implementation and demo of linked list in JavaScript:
+
+Linked List Implementation
+--------------------------
 
 -JavaScript is embedded in HTML, so users can interact with functions in web interface
 
@@ -52,3 +54,27 @@ sort() ->  implemented a merge-sort to sort the element in the array.  After all
 have been split into lists of 1, the combine merges two list back together while comparing
 values of the heads of each list.  Runs in O(nlogn), simply based on the standard worst-case
 time complexity of merge-sort
+
+
+Web Interface
+--------------------------
+Web interface with a basic HTML layout for the simple purpose of demonstrating the funcitonality
+of the implemented linked list.  There is an option to add and remove nodes from the list, which
+is displayed using the toString() function. With the simple click of a button, nodes can also be
+removed from the front or the back.  Every time a function is performed on the list, it is reflected
+in the current list, as well as the list length which is displayed beneath the current list.  To
+demonstrate the functionality of restoring a list from a string, the user can input integers separated
+by a comma into an input bar, which will then replace the current displayed list.  The sort button
+will sort the current list.  Interaction with the interface is very intuitive.
+
+Time Complexity
+--------------------------
+The time complexity for each function in separate tables on the interface.  The tables have two
+columns, one with the length of the list and the other with the performance time of the function.
+Every time that action is performed, a row with the list length and performance time will be added
+to the table.  In doing so, one can note any patterns in the time complexity for each function.  For
+example, the add function will have relatively constant time no matter the length, where as the restore
+string function will take longer the more integers there are.  This demonstrates the constant running time
+of adding/removing vs the linear running time of iterating through a string.  Furthermore, the sort will
+take slightly longer than the restore for the same length of list, which demonstrates its O(nlogn) time
+complexity.
